@@ -22,6 +22,7 @@ func Start(host, rickroll string, previews []string) error {
 		}
 
 		useragent := r.Header.Get("User-Agent")
+		origin := r.RemoteAddr
 
 		shouldFake := false
 		for _, p := range previews {
@@ -31,12 +32,11 @@ func Start(host, rickroll string, previews []string) error {
 			}
 		}
 
-		fmt.Print(time.Now().Round(0), ": ", "Request ", bust, " from: ", useragent)
 		if shouldFake {
-			fmt.Print(", showing fake ", url, "\n")
+			fmt.Printf("%s: request %s from %s by %s, showing %s\n", time.Now().Round(0), bust, origin, useragent, url)
 			http.Redirect(w, r, url, http.StatusFound)
 		} else {
-			fmt.Print(", showing rickroll\n")
+			fmt.Printf("%s: request %s from %s by %s, showing %s\n", time.Now().Round(0), bust, origin, useragent, "rickroll")
 			http.Redirect(w, r, rickroll, http.StatusFound)
 		}
 	})
