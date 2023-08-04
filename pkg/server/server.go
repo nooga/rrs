@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -30,7 +31,7 @@ func Start(host, rickroll string, previews []string) error {
 			}
 		}
 
-		fmt.Print("Request ", bust, " from: ", useragent)
+		fmt.Print(time.Now().Round(0), ": ", "Request ", bust, " from: ", useragent)
 		if shouldFake {
 			fmt.Print(", showing fake ", url, "\n")
 			http.Redirect(w, r, url, http.StatusFound)
