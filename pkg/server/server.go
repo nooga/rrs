@@ -8,16 +8,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Start(host, route, rickroll, fake string, previews []string) error {
-	if !strings.HasPrefix(route, "/") {
-		route = "/" + route
-	}
-
+func Start(host, rickroll string, previews []string) error {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/r/{bust}"+route, func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/r/{bust}/{url}", func(w http.ResponseWriter, r *http.Request) {
 		params := mux.Vars(r)
 		bust := params["bust"]
+		url := params["url"]
+
+		if !strings.HasPrefix(url, "http") {
+			url = "https://" + url
+		}
 
 		useragent := r.Header.Get("User-Agent")
 
@@ -31,8 +32,8 @@ func Start(host, route, rickroll, fake string, previews []string) error {
 
 		fmt.Print("Request ", bust, " from: ", useragent)
 		if shouldFake {
-			fmt.Print(", showing fake\n")
-			http.Redirect(w, r, fake, http.StatusFound)
+			fmt.Print(", showing fake ", url, "\n")
+			http.Redirect(w, r, url, http.StatusFound)
 		} else {
 			fmt.Print(", showing rickroll\n")
 			http.Redirect(w, r, rickroll, http.StatusFound)

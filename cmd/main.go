@@ -13,14 +13,10 @@ var defaultPreviews = []string{
 
 const defaultHost = ":8080"
 
-const defaultFake = "https://docs.monk.io"
-
 const defaultRickroll = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
-const defaultRoute = "/docs.monk.io"
-
 func main() {
-	if err := server.Start(defaultHost, defaultRoute, defaultRickroll, defaultFake, defaultPreviews); err != nil {
+	if err := server.Start(defaultHost, defaultRickroll, defaultPreviews); err != nil {
 		fmt.Println("Error starting server: ", err)
 	}
 }
