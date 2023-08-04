@@ -11,7 +11,7 @@ import (
 func Start(host, rickroll string, previews []string) error {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/r/{bust}/{url}", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/r/{bust}/{url:.*}", func(w http.ResponseWriter, r *http.Request) {
 		params := mux.Vars(r)
 		bust := params["bust"]
 		url := params["url"]
