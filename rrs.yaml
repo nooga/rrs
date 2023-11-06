@@ -1,0 +1,21 @@
+namespace: rrs
+rrs:
+  defines: runnable
+  metadata:
+    name: rrs
+    description: >-
+      A server that rickrolls anyone who tries to include a preview of anything
+      from this server.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    rrs:
+      build: .
+      image: env-1823.registry.local/rrs:master-82a12b5
+  services:
+    http:
+      container: rrs
+      port: 8080
+      host-port: 8080
+      publish: false
+      protocol: TCP
+      description: Main port for incoming HTTP connections
